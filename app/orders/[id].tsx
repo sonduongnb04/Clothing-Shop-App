@@ -5,8 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getOrderById, getOrderStatusText, getPaymentMethodText, cancelOrder } from '@/src/services/orderService';
-import API from '@/src/services/api';
+import { getOrderById, getOrderStatusText, getPaymentMethodText, cancelOrder } from '@/services/orderService';
+import API from '@/services/api';
 
 // Định nghĩa kiểu dữ liệu
 type OrderStatus = 'pending' | 'processing' | 'shipping' | 'delivered' | 'cancelled';

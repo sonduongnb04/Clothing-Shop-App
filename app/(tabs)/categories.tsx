@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Image, View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { getAllCategories, getProductsByCategory } from '@/src/services/productService';
-import API from '@/src/services/api';
+import { getAllCategories, getProductsByCategory } from '@/services/productService';
+import API from '@/services/api';
 import { Ionicons } from '@expo/vector-icons';
-import { addToWishlist, isInWishlist, removeFromWishlist } from '@/src/services/wishlistService';
+import { addToWishlist, isInWishlist, removeFromWishlist } from '@/services/wishlistService';
 import { useAuth } from '@/app/_layout';
 
 import { ThemedText } from '@/components/ThemedText';

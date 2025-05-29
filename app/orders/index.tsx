@@ -6,7 +6,7 @@ import { useAuth } from '@/app/_layout';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getUserOrders, getOrderStatusText, getPaymentMethodText, clearAllOrdersFromStorage, debugAsyncStorage } from '@/src/services/orderService';
+import { getUserOrders, getOrderStatusText, getPaymentMethodText, clearAllOrdersFromStorage, debugAsyncStorage } from '@/services/orderService';
 
 // Định nghĩa kiểu dữ liệu
 type OrderStatus = 'pending' | 'processing' | 'shipping' | 'delivered' | 'cancelled';

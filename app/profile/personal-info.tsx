@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getCurrentUser, updateUserProfile } from '@/src/services/userService';
+import { getCurrentUser, updateUserProfile } from '@/services/userService';
 import { useAuth } from '@/app/_layout';
 
 type UserInfo = {

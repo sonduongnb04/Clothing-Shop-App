@@ -40,11 +40,11 @@ router.get('/search', async (req, res) => {
   try {
     const keyword = req.query.q
       ? {
-          name: {
-            $regex: req.query.q,
-            $options: 'i',
-          },
-        }
+        name: {
+          $regex: req.query.q,
+          $options: 'i',
+        },
+      }
       : {};
 
     const products = await Product.find({ ...keyword }).populate('category');

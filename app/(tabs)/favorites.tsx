@@ -18,8 +18,8 @@ import { useAuth } from '@/app/_layout';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useWishlist } from '@/src/contexts/WishlistContext';
-import API from '@/src/services/api';
+import { useWishlist } from '@/contexts/WishlistContext';
+import API from '@/services/api';
 
 // Định nghĩa kiểu dữ liệu
 type Product = {

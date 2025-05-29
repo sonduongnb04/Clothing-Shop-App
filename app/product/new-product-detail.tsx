@@ -15,10 +15,10 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getProductById } from '@/src/services/productService';
-import { addToCart } from '@/src/services/cartService';
-import { addToWishlist, removeFromWishlist, isInWishlist } from '@/src/services/wishlistService';
-import { getProductReviews, addReview, calculateAverageRating } from '@/src/services/reviewService';
+import { getProductById } from '@/services/productService';
+import { addToCart } from '@/services/cartService';
+import { addToWishlist, removeFromWishlist, isInWishlist } from '@/services/wishlistService';
+import { getProductReviews, addReview, calculateAverageRating } from '@/services/reviewService';
 
 // Định nghĩa kiểu dữ liệu
 type Product = {
@@ -147,7 +147,7 @@ export default function ProductDetailScreen() {
         return Alert.alert('Thông báo', 'Vui lòng chọn màu sắc');
       }
 
-      await addToCart(product, selectedSize, selectedColor, quantity);
+      await addToCart(product, selectedSize as any, selectedColor as any, quantity);
       Alert.alert(
         'Thành công',
         'Đã thêm sản phẩm vào giỏ hàng',
@@ -204,7 +204,7 @@ export default function ProductDetailScreen() {
       }
 
       // Thêm vào giỏ hàng trước, sau đó chuyển đến trang thanh toán
-      await addToCart(product, selectedSize, selectedColor, quantity);
+      await addToCart(product, selectedSize as any, selectedColor as any, quantity);
       router.push('/checkout');
     } catch (error) {
       console.error('Lỗi khi mua ngay:', error);

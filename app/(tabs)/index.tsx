@@ -6,8 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { getAllProducts } from '@/src/services/productService';
-import API from '@/src/services/api';
+import { getAllProducts } from '@/services/productService';
+import API from '@/services/api';
 
 // Lấy baseURL từ cấu hình API (bỏ phần /api)
 const API_BASE_URL = API.defaults.baseURL?.replace('/api', '') || 'http://10.0.2.2:5000';

@@ -85,4 +85,4 @@ export const calculateAverageRating = async (productId: string): Promise<number>
     console.error(`Lỗi khi tính điểm đánh giá trung bình của sản phẩm ${productId}:`, error);
     return 0;
   }
-};
+}; 

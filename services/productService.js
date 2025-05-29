@@ -55,3 +55,17 @@ export const getAllCategories = async () => {
     throw error;
   }
 };
+
+// Helper function để format giá tiền
+export const formatPrice = (price) => {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(price);
+};
+
+// Helper function để tính phần trăm giảm giá
+export const calculateDiscountPercentage = (originalPrice, discountPrice) => {
+  if (!discountPrice || discountPrice >= originalPrice) return 0;
+  return Math.round(((originalPrice - discountPrice) / originalPrice) * 100);
+};

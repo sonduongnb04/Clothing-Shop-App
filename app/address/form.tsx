@@ -14,7 +14,7 @@ import { useAuth } from '@/app/_layout';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { addAddress, updateAddress } from '@/src/services/userService';
+import { addAddress, updateAddress } from '@/services/userService';
 
 // Định nghĩa kiểu dữ liệu
 type AddressFormData = {

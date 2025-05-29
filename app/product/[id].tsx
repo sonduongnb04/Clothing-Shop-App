@@ -15,12 +15,12 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getProductById } from '@/src/services/productService';
-import { getProductReviews, addReview, calculateAverageRating } from '@/src/services/reviewService';
+import { getProductById } from '@/services/productService';
+import { getProductReviews, addReview, calculateAverageRating } from '@/services/reviewService';
 import { useAuth } from '@/app/_layout';
-import { useCart } from '@/src/contexts/CartContext';
-import { useWishlist } from '@/src/contexts/WishlistContext';
-import API from '@/src/services/api';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import API from '@/services/api';
 
 // Định nghĩa kiểu dữ liệu
 type Product = {

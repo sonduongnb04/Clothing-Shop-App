@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { getAddressById, updateAddress } from '@/src/services/userService';
+import { getAddressById, updateAddress } from '@/services/userService';
 import { useAuth } from '@/app/_layout';
 
 // Định nghĩa kiểu dữ liệu cho địa chỉ

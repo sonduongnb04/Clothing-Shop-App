@@ -5,10 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { login } from '@/src/services/authService';
+import { login } from '@/services/authService';
 import { useAuth } from './_layout';
-import { migrateCartToUser } from '@/src/services/cartService';
-import { migrateWishlistToUser } from '@/src/services/wishlistService';
+import { migrateCartToUser } from '@/services/cartService';
+import { migrateWishlistToUser } from '@/services/wishlistService';
 
 export default function LoginScreen() {
   const router = useRouter();
