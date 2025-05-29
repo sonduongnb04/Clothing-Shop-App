@@ -74,7 +74,7 @@ export default function ProfileScreen() {
               await authService.logout();
 
               if (userId) {
-                await clearCart(userId);
+                await clearCart();
                 await AsyncStorage.removeItem(`WISHLIST_ITEMS_${userId}`);
               }
 

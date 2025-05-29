@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  StyleSheet, 
-  ScrollView, 
-  Image, 
-  TouchableOpacity, 
-  ActivityIndicator, 
-  Alert, 
-  View, 
+import {
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+  View,
   FlatList,
   Text
 } from 'react-native';
@@ -80,7 +80,7 @@ export default function ProductDetailScreen() {
         setLoading(true);
         const data = await getProductById(id as string);
         setProduct(data);
-        
+
         // Đặt kích thước và màu sắc mặc định nếu có
         if (data.sizes && data.sizes.length > 0) {
           setSelectedSize(data.sizes[0]);
@@ -88,10 +88,10 @@ export default function ProductDetailScreen() {
         if (data.colors && data.colors.length > 0) {
           setSelectedColor(data.colors[0]);
         }
-        
+
         // Đặt số lượng tồn kho
         setStockCount(data.stockCount || 0);
-        
+
         // Kiểm tra xem sản phẩm có trong danh sách yêu thích không
         const wishlistStatus = await isInWishlist(data._id);
         setIsWishlisted(wishlistStatus);
@@ -147,7 +147,7 @@ export default function ProductDetailScreen() {
         return Alert.alert('Thông báo', 'Vui lòng chọn màu sắc');
       }
 
-      await addToCart(product, quantity, selectedSize, selectedColor);
+      await addToCart(product, selectedSize, selectedColor, quantity);
       Alert.alert(
         'Thành công',
         'Đã thêm sản phẩm vào giỏ hàng',
@@ -165,10 +165,10 @@ export default function ProductDetailScreen() {
   // Xử lý thêm/xóa sản phẩm khỏi danh sách yêu thích
   const toggleWishlist = async () => {
     if (!product) return;
-    
+
     try {
       setLoadingWishlist(true);
-      
+
       if (isWishlisted) {
         // Nếu đã trong danh sách yêu thích, xóa khỏi danh sách
         await removeFromWishlist(product._id);
@@ -187,7 +187,7 @@ export default function ProductDetailScreen() {
       setLoadingWishlist(false);
     }
   };
-  
+
   // Xử lý mua ngay
   const handleBuyNow = async () => {
     if (!product) return;
@@ -204,7 +204,7 @@ export default function ProductDetailScreen() {
       }
 
       // Thêm vào giỏ hàng trước, sau đó chuyển đến trang thanh toán
-      await addToCart(product, quantity, selectedSize, selectedColor);
+      await addToCart(product, selectedSize, selectedColor, quantity);
       router.push('/checkout');
     } catch (error) {
       console.error('Lỗi khi mua ngay:', error);
@@ -217,7 +217,7 @@ export default function ProductDetailScreen() {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.5;
-    
+
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
@@ -233,7 +233,7 @@ export default function ProductDetailScreen() {
         );
       }
     }
-    
+
     return stars;
   };
 
@@ -260,9 +260,9 @@ export default function ProductDetailScreen() {
   // Tính giá khuyến mãi và phần trăm giảm giá
   const discountPrice = product.discountPrice || product.price;
   const originalPrice = product.price;
-  const discountPercent = product.discountPercent || 
-    (originalPrice > discountPrice 
-      ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100) 
+  const discountPercent = product.discountPercent ||
+    (originalPrice > discountPrice
+      ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100)
       : 0);
 
   return (
@@ -274,10 +274,10 @@ export default function ProductDetailScreen() {
             <Ionicons name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleWishlist} style={styles.wishlistButton} disabled={loadingWishlist}>
-            <Ionicons 
-              name={isWishlisted ? "heart" : "heart-outline"} 
-              size={24} 
-              color={isWishlisted ? "#e74c3c" : "#000"} 
+            <Ionicons
+              name={isWishlisted ? "heart" : "heart-outline"}
+              size={24}
+              color={isWishlisted ? "#e74c3c" : "#000"}
             />
           </TouchableOpacity>
         </View>
@@ -285,20 +285,20 @@ export default function ProductDetailScreen() {
         {/* Hình ảnh sản phẩm */}
         <View style={styles.imageContainer}>
           <Image
-            source={product.images && product.images.length > 0 
-              ? { uri: product.images[selectedImageIndex] } 
+            source={product.images && product.images.length > 0
+              ? { uri: product.images[selectedImageIndex] }
               : defaultImage}
             style={styles.mainImage}
             resizeMode="cover"
           />
-          
+
           {/* Hiển thị phần trăm giảm giá */}
           {discountPercent > 0 && (
             <View style={styles.discountBadge}>
               <ThemedText style={styles.discountText}>-{discountPercent}%</ThemedText>
             </View>
           )}
-          
+
           {/* Hiển thị các biến thể màu sắc */}
           {product.variants && product.variants.length > 0 && (
             <View style={styles.variantsContainer}>
@@ -308,7 +308,7 @@ export default function ProductDetailScreen() {
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => `variant-${index}`}
                 renderItem={({ item, index }) => (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={[
                       styles.variantItem,
                       selectedVariantIndex === index && styles.selectedVariantItem
@@ -325,9 +325,9 @@ export default function ProductDetailScreen() {
                       }
                     }}
                   >
-                    <Image 
-                      source={{ uri: item.image }} 
-                      style={styles.variantImage} 
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.variantImage}
                       resizeMode="cover"
                     />
                   </TouchableOpacity>
@@ -345,7 +345,7 @@ export default function ProductDetailScreen() {
               <ThemedText style={styles.originalPriceText}>đ{originalPrice.toLocaleString()}</ThemedText>
             )}
           </View>
-          
+
           {/* Thông tin trả góp */}
           {product.installmentInfo && (
             <View style={styles.installmentContainer}>
@@ -357,7 +357,7 @@ export default function ProductDetailScreen() {
         {/* Tên sản phẩm */}
         <View style={styles.productInfoContainer}>
           <ThemedText style={styles.productNameText}>{product.name}</ThemedText>
-          
+
           {/* Đánh giá và số lượng đã bán */}
           <View style={styles.ratingContainer}>
             <View style={styles.starsContainer}>
@@ -420,24 +420,24 @@ export default function ProductDetailScreen() {
         <View style={styles.quantityContainer}>
           <ThemedText style={styles.optionTitle}>Số lượng:</ThemedText>
           <View style={styles.quantityControls}>
-            <TouchableOpacity 
-              style={[styles.quantityButton, quantity <= 1 && styles.disabledButton]} 
+            <TouchableOpacity
+              style={[styles.quantityButton, quantity <= 1 && styles.disabledButton]}
               onPress={decreaseQuantity}
               disabled={quantity <= 1}
             >
               <Ionicons name="remove" size={20} color="#000" />
             </TouchableOpacity>
             <ThemedText style={styles.quantityText}>{quantity}</ThemedText>
-            <TouchableOpacity 
-              style={[styles.quantityButton, quantity >= (product.stockCount || 99) && styles.disabledButton]} 
+            <TouchableOpacity
+              style={[styles.quantityButton, quantity >= (product.stockCount || 99) && styles.disabledButton]}
               onPress={increaseQuantity}
               disabled={quantity >= (product.stockCount || 99)}
             >
               <Ionicons name="add" size={20} color="#000" />
             </TouchableOpacity>
             <ThemedText style={styles.stockText}>
-              {product.inStock 
-                ? `Còn ${product.stockCount || 'hàng'} sản phẩm` 
+              {product.inStock
+                ? `Còn ${product.stockCount || 'hàng'} sản phẩm`
                 : 'Hết hàng'}
             </ThemedText>
           </View>
@@ -475,15 +475,15 @@ export default function ProductDetailScreen() {
 
       {/* Nút thao tác */}
       <View style={styles.actionButtonsContainer}>
-        <TouchableOpacity 
-          style={styles.addToCartButton} 
+        <TouchableOpacity
+          style={styles.addToCartButton}
           onPress={handleAddToCart}
           disabled={!product.inStock}
         >
           <ThemedText style={styles.buttonText}>Thêm vào giỏ hàng</ThemedText>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.buyNowButton, !product.inStock && styles.disabledButton]} 
+        <TouchableOpacity
+          style={[styles.buyNowButton, !product.inStock && styles.disabledButton]}
           onPress={handleBuyNow}
           disabled={!product.inStock}
         >
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
     color: '#7f8c8d',
   },
   soldContainer: {
-    
+
   },
   soldText: {
     fontSize: 14,

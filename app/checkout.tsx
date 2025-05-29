@@ -19,8 +19,48 @@ import { ThemedView } from '@/components/ThemedView';
 import { getUserAddresses } from '@/src/services/userService';
 import { createOrder } from '@/src/services/orderService';
 
+// Type definitions
+interface Address {
+  id: string;
+  fullName: string;
+  phoneNumber: string;
+  streetAddress: string;
+  ward: string;
+  district: string;
+  province: string;
+  isDefault: boolean;
+}
+
+interface ShippingInfo {
+  fullName: string;
+  phone: string;
+  email: string;
+  address: string;
+  ward: string;
+  district: string;
+  city: string;
+  note: string;
+}
+
+interface PaymentMethod {
+  id: string;
+  name: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  description: string;
+}
+
+interface FormErrors {
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  ward?: string;
+  district?: string;
+  city?: string;
+}
+
 // Payment methods
-const PAYMENT_METHODS = [
+const PAYMENT_METHODS: PaymentMethod[] = [
   {
     id: 'cod',
     name: 'Thanh toán khi nhận hàng (COD)',
@@ -59,7 +99,7 @@ export default function CheckoutScreen() {
   const { user } = useAuth();
 
   // Shipping information
-  const [shippingInfo, setShippingInfo] = useState({
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfo>({
     fullName: user?.name || '',
     phone: user?.phone || '',
     email: user?.email || '',
@@ -71,18 +111,18 @@ export default function CheckoutScreen() {
   });
 
   // Payment
-  const [selectedPayment, setSelectedPayment] = useState('cod');
-  const [loading, setLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<string>('cod');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   // Form validation
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   // Address management
-  const [savedAddresses, setSavedAddresses] = useState([]);
-  const [showAddressModal, setShowAddressModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [loadingAddresses, setLoadingAddresses] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [loadingAddresses, setLoadingAddresses] = useState<boolean>(false);
 
   useEffect(() => {
     // Redirect if cart is empty
@@ -100,16 +140,16 @@ export default function CheckoutScreen() {
     }
   }, [cartItems, router, user]);
 
-  const loadSavedAddresses = async () => {
+  const loadSavedAddresses = async (): Promise<void> => {
     if (!user) return;
 
     try {
       setLoadingAddresses(true);
-      const addresses = await getUserAddresses(user._id);
+      const addresses: Address[] = await getUserAddresses(user._id);
       setSavedAddresses(addresses);
 
       // Auto-select default address if exists
-      const defaultAddress = addresses.find(addr => addr.isDefault);
+      const defaultAddress = addresses.find((addr: Address) => addr.isDefault);
       if (defaultAddress && !selectedAddress) {
         selectSavedAddress(defaultAddress);
       }
@@ -120,7 +160,7 @@ export default function CheckoutScreen() {
     }
   };
 
-  const selectSavedAddress = (address) => {
+  const selectSavedAddress = (address: Address): void => {
     setSelectedAddress(address);
     setShippingInfo(prev => ({
       ...prev,
@@ -136,7 +176,7 @@ export default function CheckoutScreen() {
     setErrors({});
   };
 
-  const clearSelectedAddress = () => {
+  const clearSelectedAddress = (): void => {
     setSelectedAddress(null);
     setShippingInfo(prev => ({
       ...prev,
@@ -149,12 +189,12 @@ export default function CheckoutScreen() {
     }));
   };
 
-  const formatPrice = (price) => {
+  const formatPrice = (price: number): string => {
     return price.toLocaleString('vi-VN') + 'đ';
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
 
     if (!shippingInfo.fullName.trim()) {
       newErrors.fullName = 'Vui lòng nhập họ tên';
@@ -192,22 +232,22 @@ export default function CheckoutScreen() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof ShippingInfo, value: string): void => {
     setShippingInfo(prev => ({
       ...prev,
       [field]: value
     }));
 
     // Clear error when user starts typing
-    if (errors[field]) {
+    if (errors[field as keyof FormErrors]) {
       setErrors(prev => ({
         ...prev,
-        [field]: null
+        [field]: undefined
       }));
     }
   };
 
-  const processPayment = async (paymentMethod, orderData) => {
+  const processPayment = async (paymentMethod: string, orderData: any): Promise<{ success: boolean; message: string }> => {
     switch (paymentMethod) {
       case 'cod':
         // COD doesn't need payment processing

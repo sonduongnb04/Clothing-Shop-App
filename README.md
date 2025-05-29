@@ -1,8 +1,8 @@
 # 👗 Ứng Dụng Bán Quần Áo - Clothing Shop App
 
-## 📱 Giới Thiệu
+Ứng dụng mua sắm thời trang di động được xây dựng với React Native và Expo.
 
-**Clothing Shop App** là ứng dụng di động hoàn chỉnh dành cho việc mua bán quần áo trực tuyến, được xây dựng bằng React Native và Expo Router. Ứng dụng cung cấp trải nghiệm mua sắm mượt mà với giao diện hiện đại và các tính năng đầy đủ.
+## 🚀 Tính năng chính
 
 ### ✨ Tính Năng Chính
 

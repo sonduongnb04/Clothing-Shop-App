@@ -79,10 +79,10 @@ export default function ProfileScreen() {
               // Xóa thông tin đăng nhập
               await AsyncStorage.removeItem('userToken');
               await AsyncStorage.removeItem('userData');
-              
+
               // Cập nhật trạng thái đăng nhập
               setUser(null);
-              
+
               // Chuyển hướng đến trang đăng nhập
               router.replace('/login');
             } catch (error) {
@@ -102,7 +102,7 @@ export default function ProfileScreen() {
     <TouchableOpacity
       key={item.id}
       style={styles.menuItem}
-      onPress={() => router.push(item.route)}
+      onPress={() => router.push(item.route as any)}
     >
       <ThemedView style={styles.menuItemLeft}>
         <ThemedView style={styles.menuItemIcon}>

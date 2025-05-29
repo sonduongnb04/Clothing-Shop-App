@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { changePassword } from '@/src/services/userService';
+import { changePassword } from '@/services/userService';
 
 export default function ChangePasswordScreen() {
   const router = useRouter();
@@ -56,12 +56,14 @@ export default function ChangePasswordScreen() {
       console.error('Lỗi khi đổi mật khẩu:', error);
       let errorMessage = 'Không thể đổi mật khẩu. Vui lòng thử lại sau.';
 
-      if (error.message === 'Mật khẩu hiện tại không đúng') {
-        errorMessage = 'Mật khẩu hiện tại không đúng. Vui lòng kiểm tra lại.';
-      } else if (error.message === 'Không tìm thấy thông tin người dùng') {
-        errorMessage = 'Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.';
-      } else if (error.message.includes('kết nối mạng')) {
-        errorMessage = 'Không có kết nối mạng. Vui lòng kiểm tra kết nối và thử lại.';
+      if (error instanceof Error) {
+        if (error.message === 'Mật khẩu hiện tại không đúng') {
+          errorMessage = 'Mật khẩu hiện tại không đúng. Vui lòng kiểm tra lại.';
+        } else if (error.message === 'Không tìm thấy thông tin người dùng') {
+          errorMessage = 'Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.';
+        } else if (error.message.includes('kết nối mạng')) {
+          errorMessage = 'Không có kết nối mạng. Vui lòng kiểm tra kết nối và thử lại.';
+        }
       }
 
       Alert.alert('Lỗi', errorMessage);

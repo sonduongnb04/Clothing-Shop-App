@@ -28,11 +28,11 @@ import {
   calculateShippingFee,
   calculateOrderTotal,
   clearCart
-} from '@/src/services/cartService';
-import { addToWishlist, isInWishlist } from '@/src/services/wishlistService';
+} from '@/services/cartService';
+import { addToWishlist, isInWishlist } from '@/services/wishlistService';
 import { useAuth } from '@/app/_layout';
-import { useCart } from '@/src/contexts/CartContext';
-import API from '@/src/services/api';
+import { useCart } from '@/contexts/CartContext';
+import API from '@/services/api';
 
 // Định nghĩa kiểu dữ liệu
 type Product = {
@@ -85,11 +85,11 @@ export default function CartScreen() {
     setRefreshing(false);
   };
 
-  const formatPrice = (price) => {
+  const formatPrice = (price: number): string => {
     return price.toLocaleString('vi-VN') + 'đ';
   };
 
-  const handleQuantityChange = async (itemId, currentQuantity, change) => {
+  const handleQuantityChange = async (itemId: string, currentQuantity: number, change: number): Promise<void> => {
     const newQuantity = currentQuantity + change;
     if (newQuantity < 1) {
       handleRemoveItem(itemId);
@@ -99,7 +99,7 @@ export default function CartScreen() {
     await updateCartItemQuantity(itemId, newQuantity);
   };
 
-  const handleRemoveItem = (itemId) => {
+  const handleRemoveItem = (itemId: string): void => {
     Alert.alert(
       'Xóa sản phẩm',
       'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
@@ -129,7 +129,7 @@ export default function CartScreen() {
     );
   };
 
-  const getImageUrl = (item) => {
+  const getImageUrl = (item: any): string | null => {
     if (item.image && item.category) {
       const categoryName = typeof item.category === 'object' ? item.category.name : item.category;
       return `${baseURL}/images/${categoryName.toLowerCase()}/${item.image}`;
@@ -137,7 +137,7 @@ export default function CartScreen() {
     return null;
   };
 
-  const renderCartItem = (item) => {
+  const renderCartItem = (item: any) => {
     const imageUrl = getImageUrl(item);
 
     return (

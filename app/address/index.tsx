@@ -19,7 +19,7 @@ import {
   getUserAddresses,
   deleteAddress,
   setDefaultAddress
-} from '@/src/services/userService';
+} from '@/services/userService';
 
 // Định nghĩa kiểu dữ liệu
 type Address = {
@@ -88,16 +88,18 @@ export default function AddressManagementScreen() {
       console.error('Lỗi khi đặt địa chỉ mặc định:', error);
       let errorMessage = 'Không thể đặt làm địa chỉ mặc định';
 
-      if (error.message === 'Không tìm thấy danh sách địa chỉ') {
-        errorMessage = 'Không tìm thấy danh sách địa chỉ. Vui lòng thêm địa chỉ mới.';
-      } else if (error.message === 'Địa chỉ không tồn tại') {
-        errorMessage = 'Địa chỉ không tồn tại. Vui lòng làm mới trang.';
-      } else if (error.message.includes('thử lại')) {
-        errorMessage = 'Không có kết nối mạng. Địa chỉ đã được đặt mặc định tạm thời.';
-        // Reload để hiển thị thay đổi
-        await loadAddresses();
-        Alert.alert('Đã lưu offline', errorMessage);
-        return;
+      if (error instanceof Error) {
+        if (error.message === 'Không tìm thấy danh sách địa chỉ') {
+          errorMessage = 'Không tìm thấy danh sách địa chỉ. Vui lòng thêm địa chỉ mới.';
+        } else if (error.message === 'Địa chỉ không tồn tại') {
+          errorMessage = 'Địa chỉ không tồn tại. Vui lòng làm mới trang.';
+        } else if (error.message.includes('thử lại')) {
+          errorMessage = 'Không có kết nối mạng. Địa chỉ đã được đặt mặc định tạm thời.';
+          // Reload để hiển thị thay đổi
+          await loadAddresses();
+          Alert.alert('Đã lưu offline', errorMessage);
+          return;
+        }
       }
 
       Alert.alert('Lỗi', errorMessage);

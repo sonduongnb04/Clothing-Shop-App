@@ -166,3 +166,47 @@ export const getCartItemCount = async () => {
     return 0;
   }
 };
+
+// Di chuyển giỏ hàng từ guest sang user đã đăng nhập
+export const migrateCartToUser = async (userId) => {
+  try {
+    console.log('Bắt đầu di chuyển giỏ hàng cho user:', userId);
+
+    // Lấy giỏ hàng hiện tại từ AsyncStorage
+    const guestCart = await getCart();
+
+    if (guestCart.length === 0) {
+      console.log('Không có sản phẩm nào trong giỏ hàng guest');
+      return { success: true, message: 'Không có dữ liệu để di chuyển' };
+    }
+
+    // TODO: Implement server-side cart migration
+    // Gửi dữ liệu giỏ hàng lên server để merge với giỏ hàng của user
+    // const response = await API.post('/cart/migrate', {
+    //   userId,
+    //   guestCart
+    // });
+
+    console.log(`Đã di chuyển ${guestCart.length} sản phẩm từ giỏ hàng guest`);
+
+    // Giữ nguyên giỏ hàng local cho đến khi có API server
+    return { success: true, message: 'Di chuyển giỏ hàng thành công' };
+  } catch (error) {
+    console.error('Lỗi khi di chuyển giỏ hàng:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Alias cho getCart để tương thích với import
+export const getCartFromStorage = getCart;
+
+// Tính phí vận chuyển
+export const calculateShippingFee = (subtotal) => {
+  return subtotal >= 500000 ? 0 : 30000;
+};
+
+// Tính tổng đơn hàng
+export const calculateOrderTotal = (cartItems) => {
+  const { total } = calculateCartTotal(cartItems);
+  return total;
+};

@@ -146,7 +146,7 @@ export default function PersonalInfoScreen() {
       console.error('Lỗi khi cập nhật thông tin:', error);
       let errorMessage = 'Không thể cập nhật thông tin. Vui lòng thử lại sau.';
 
-      if (error.message && error.message.includes('kết nối mạng')) {
+      if (error instanceof Error && error.message && error.message.includes('kết nối mạng')) {
         errorMessage = 'Không có kết nối mạng. Thông tin đã được lưu tạm thời và sẽ được đồng bộ khi có kết nối.';
 
         // Hiển thị thông báo thành công vì đã lưu offline

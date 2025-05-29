@@ -59,7 +59,7 @@ export default function CheckoutScreen() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Lấy giỏ hàng
         const items = await getCartFromStorage();
         if (items.length === 0) {
@@ -69,7 +69,7 @@ export default function CheckoutScreen() {
           return;
         }
         setCartItems(items);
-        
+
         // Lấy thông tin người dùng
         const userData = await getCurrentUser();
         if (!userData) {
@@ -79,10 +79,10 @@ export default function CheckoutScreen() {
           return;
         }
         setUser(userData);
-        
+
         // Chọn địa chỉ mặc định nếu có
         if (userData.addresses && userData.addresses.length > 0) {
-          const defaultAddress = userData.addresses.find(addr => addr.isDefault);
+          const defaultAddress = userData.addresses.find((addr: Address) => addr.isDefault);
           setSelectedAddress(defaultAddress || userData.addresses[0]);
         }
       } catch (error) {
@@ -115,7 +115,7 @@ export default function CheckoutScreen() {
 
     try {
       setProcessingOrder(true);
-      
+
       // Tạo đơn hàng
       const orderData = {
         items: cartItems.map(item => ({
@@ -133,18 +133,18 @@ export default function CheckoutScreen() {
       };
 
       const order = await createOrder(orderData);
-      
+
       Alert.alert(
-        'Thành công', 
+        'Thành công',
         'Đặt hàng thành công! Cảm ơn bạn đã mua sắm.',
         [
-          { 
-            text: 'Xem đơn hàng', 
-            onPress: () => router.push(`/orders/${order._id}`) 
+          {
+            text: 'Xem đơn hàng',
+            onPress: () => router.push(`/orders/${order._id}`)
           },
-          { 
-            text: 'Tiếp tục mua sắm', 
-            onPress: () => router.push('/') 
+          {
+            text: 'Tiếp tục mua sắm',
+            onPress: () => router.push('/')
           }
         ]
       );
@@ -158,7 +158,7 @@ export default function CheckoutScreen() {
 
   // Chọn phương thức thanh toán
   const renderPaymentMethod = (method: PaymentMethod, title: string, description: string) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[
         styles.paymentMethodItem,
         paymentMethod === method && styles.selectedPaymentMethod
@@ -199,7 +199,7 @@ export default function CheckoutScreen() {
         {/* Địa chỉ giao hàng */}
         <ThemedView style={styles.section}>
           <ThemedText style={styles.sectionTitle}>Địa chỉ giao hàng</ThemedText>
-          
+
           {selectedAddress ? (
             <ThemedView style={styles.addressCard}>
               <ThemedText style={styles.addressName}>{selectedAddress.fullName}</ThemedText>
@@ -207,8 +207,8 @@ export default function CheckoutScreen() {
               <ThemedText style={styles.addressDetail}>
                 {selectedAddress.streetAddress}, {selectedAddress.ward}, {selectedAddress.district}, {selectedAddress.province}
               </ThemedText>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.changeAddressButton}
                 onPress={() => router.push('/address')}
               >
@@ -216,7 +216,7 @@ export default function CheckoutScreen() {
               </TouchableOpacity>
             </ThemedView>
           ) : (
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.addAddressButton}
               onPress={() => router.push('/address/new')}
             >
@@ -229,18 +229,18 @@ export default function CheckoutScreen() {
         {/* Tóm tắt đơn hàng */}
         <ThemedView style={styles.section}>
           <ThemedText style={styles.sectionTitle}>Tóm tắt đơn hàng</ThemedText>
-          
+
           <ThemedView style={styles.orderSummary}>
             <ThemedView style={styles.summaryRow}>
               <ThemedText>Tạm tính ({cartItems.length} sản phẩm)</ThemedText>
               <ThemedText>{subtotal.toLocaleString()}đ</ThemedText>
             </ThemedView>
-            
+
             <ThemedView style={styles.summaryRow}>
               <ThemedText>Phí vận chuyển</ThemedText>
               <ThemedText>{shippingFee.toLocaleString()}đ</ThemedText>
             </ThemedView>
-            
+
             <ThemedView style={[styles.summaryRow, styles.totalRow]}>
               <ThemedText style={styles.totalText}>Tổng cộng</ThemedText>
               <ThemedText style={styles.totalPrice}>{total.toLocaleString()}đ</ThemedText>
@@ -251,20 +251,20 @@ export default function CheckoutScreen() {
         {/* Phương thức thanh toán */}
         <ThemedView style={styles.section}>
           <ThemedText style={styles.sectionTitle}>Phương thức thanh toán</ThemedText>
-          
+
           <ThemedView style={styles.paymentMethods}>
             {renderPaymentMethod(
               'cod',
               'Thanh toán khi nhận hàng (COD)',
               'Thanh toán bằng tiền mặt khi nhận hàng'
             )}
-            
+
             {renderPaymentMethod(
               'bank_transfer',
               'Chuyển khoản ngân hàng',
               'Chuyển khoản trước khi giao hàng'
             )}
-            
+
             {renderPaymentMethod(
               'e_wallet',
               'Ví điện tử',
@@ -280,8 +280,8 @@ export default function CheckoutScreen() {
           <ThemedText style={styles.totalLabel}>Tổng thanh toán</ThemedText>
           <ThemedText style={styles.checkoutTotal}>{total.toLocaleString()}đ</ThemedText>
         </ThemedView>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={[
             styles.placeOrderButton,
             (!selectedAddress || processingOrder) && styles.disabledButton
