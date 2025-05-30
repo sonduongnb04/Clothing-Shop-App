@@ -7,9 +7,9 @@ import {
   Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
-import * as authService from "@/src/services/authService";
+import * as authService from "@/services/authService";
 import { useAuth } from "../_layout";
-import { clearCart } from '@/src/services/cartService';
+import { clearCart } from '@/services/cartService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 

@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const API = axios.create({
   // Sử dụng địa chỉ IP thực của máy tính thay vì localhost để thiết bị di động có thể kết nối
   // Địa chỉ IP này là địa chỉ IP thực của máy tính trong mạng WiFi
-  baseURL: 'http://192.168.0.104:5000/api', // Địa chỉ IP thực của máy tính
+  baseURL: 'http://192.168.223.21:5000/api', // Địa chỉ IP thực của máy tính
   headers: {
     'Content-Type': 'application/json',
   },
